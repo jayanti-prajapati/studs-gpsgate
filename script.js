@@ -11,10 +11,27 @@ function initialize() {
         map.setCenter(initialLocation);
         window.currentPosition = position;
     });
-    setInterval(updatePosition.bind(null, sendPosition), 5000);
+
+    updateCurrentPosition(function(position) {
+        updateUserPosition();
+        sendPosition();
+        getLocations();
+        setInterval(updateCurrentPosition, 1000);
+        setInterval(updateUserPosition, 1000);
+        setInterval(sendPosition, 5000);
+        setInterval(getLocations, 20000);
+    })
 }
 
 
+function updateCurrentPosition(callback) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        window.currentPosition = position;
+        if (callback) {
+            callback(position);
+        }
+    });
+}
 
 var markers = [];
 
@@ -79,8 +96,8 @@ function updateUserPosition() {
     });
 }
 
-function sendPosition(position) {
-    updateUserPosition();
+function sendPosition() {
+    var position = window.currentPosition;
     var velocity = 0;
     var heading = 0;
     console.log('Updating position', position);
