@@ -32,7 +32,7 @@ function initialize() {
         navigator.geolocation.watchPosition(function(position) {
             console.log("New position:", position);
             window.currentPosition = position;
-            updateCurrentPosition();
+            updateUserPosition();
         }, null, geo_options);
     })
 }
