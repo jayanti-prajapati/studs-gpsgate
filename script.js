@@ -76,7 +76,7 @@ function getLocations(){
             console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, 
               location.distance));
             var posarray = ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, 
-              location.distance);
+              location.distance/1000);
             deleteMarkers();
             addMarker(posarray[0], posarray[1]);
           }
