@@ -19,7 +19,7 @@ function initialize() {
         setInterval(updateCurrentPosition, 1000);
         setInterval(updateUserPosition, 1000);
         setInterval(sendPosition, 5000);
-        setInterval(getLocations, 20000);
+        setInterval(getLocations, 8000);
     })
 }
 
@@ -107,16 +107,28 @@ function sendPosition() {
 
 function getLocations() {
     var position = window.currentPosition;
-              // Get some users
     GpsGate.Server.Hackathon.GetNearbyLocations().addCallbacks(function(response) {
       deleteMarkers();
+      clearDistances();
       for(var i = 0; i < response.length; i++) {
         var location = response[i];
         console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, location.distance));
         var posarray = ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, location.distance/1000);
         addMarker(posarray[0], posarray[1]);
+        console.log(location.name);
+        console.log(location.distance);
+        addDistance(location);
       }
     });
+}
+
+function clearDistances() {
+  jQuery("#locations").html('');
+}
+
+function addDistance(location) {
+  var loc = '<div class="location">Name: ' + location.name + '<br>Dist: ' + location.distance + '</div>';
+  jQuery("#locations").append(loc);
 }
 
 function ComputeLatLng(vLatitude, vLongitude, vAngle, vDistance) {
