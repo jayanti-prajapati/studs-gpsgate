@@ -101,7 +101,7 @@ function sendPosition() {
     var velocity = 0;
     var heading = 0;
     console.log('Updating position', position);
-    //GpsGate.Server.Hackathon.UpdatePosition(position.coords.latitude, position.coords.longitude, velocity, heading);
+    GpsGate.Server.Hackathon.UpdatePosition(position.coords.latitude, position.coords.longitude, velocity, heading);
 
 }
 
