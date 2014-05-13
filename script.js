@@ -105,28 +105,19 @@ function sendPosition() {
 
 }
 
-function getLocations(){
-    navigator.geolocation.getCurrentPosition(function(position){
+function getLocations() {
+    var position = window.currentPosition;
               // Get some users
-      GpsGate.Server.Hackathon.GetNearbyLocations().addCallbacks(
-        function(response) {
-          deleteMarkers();
-          for(var i = 0; i < response.length; i++){
-            var location = response[i];
-            console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, location.distance));
-            var posarray = ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, location.distance/1000);
-            addMarker(posarray[0], posarray[1]);
-          }
-        },
-        function(error){}
-      );
-
-
+    GpsGate.Server.Hackathon.GetNearbyLocations().addCallbacks(function(response) {
+      deleteMarkers();
+      for(var i = 0; i < response.length; i++) {
+        var location = response[i];
+        console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, location.distance));
+        var posarray = ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, location.distance/1000);
+        addMarker(posarray[0], posarray[1]);
+      }
     });
-
 }
-
-
 
 function ComputeLatLng(vLatitude, vLongitude, vAngle, vDistance) {
     // Find
