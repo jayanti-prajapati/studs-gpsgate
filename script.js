@@ -4,10 +4,27 @@ function initialize() {
       zoom: 8
     };
     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-  }
+
+    updatePosition(function(position) {
+        var initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+        map.setCenter(initialLocation);
+    });
+    setInterval(updatePosition.bind(null, sendPosition), 3000);
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
+
+function updatePosition(callback) {
+    navigator.geolocation.getCurrentPosition(callback);
+}
+
+function sendPosition(position) {
+    var velocity = 0;
+    var heading = 0;
+    console.log('Updating position', position);
+    GpsGate.Server.Hackathon.UpdatePosition(position.coords.latitude, position.coords.longitude, velocity, heading);
+}
 
 function ComputeLatLng(vLatitude, vLongitude, vAngle, vDistance) {
     var vNewLatLng = [];
