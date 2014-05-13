@@ -132,7 +132,7 @@ function getLocations() {
         addMarker(posarray[0], posarray[1]);
         console.log(location.name);
         console.log(location.distance);
-        addDistance(location);
+        addInfowindow(location, markers[i]);
       }
       var width = (jQuery(window).width()/response.length)-45;
       jQuery(".location").css("width", width);
@@ -143,9 +143,12 @@ function clearDistances() {
   jQuery("#locations").html('');
 }
 
-function addDistance(location) {
-  var loc = '<div class="location">Name: ' + location.name + '<br>Dist: ' + location.distance + '</div>';
-  jQuery("#locations").append(loc);
+function addInfowindow(location, marker) {
+  var contentString = '<div class="infowindow">Name: ' + location.name + '</div></div>Dist: ' + location.distance + '</div>';
+  var infowindow = new google.maps.InfoWindow({
+      content: contentString
+  });
+  infowindow.open(map,marker);
 }
 
 function ComputeLatLng(vLatitude, vLongitude, vAngle, vDistance) {
