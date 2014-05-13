@@ -48,18 +48,6 @@
       // do something
       console.log('app.main');
 
-      // Get some users
-      GpsGate.Server.Hackathon.GetNearbyLocations().addCallbacks(
-        function(response) {
-          for(var i = 0; i < response.length; i++){
-            var location = response[i];
-            console.log(location);
-            console.log(ComputeLatLng(0, 0, location.heading, location.distance));
-          }
-        }, 
-        function(error){}
-      );
-
       GpsGate.Server.Hackathon.GetUpdatedUsers().addCallbacks(
         function(response) {
           var ul = jQuery('#users');

@@ -17,6 +17,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 function updatePosition(callback) {
     navigator.geolocation.getCurrentPosition(callback);
+    getLocations();
 }
 
 function sendPosition(position) {
@@ -26,7 +27,31 @@ function sendPosition(position) {
     GpsGate.Server.Hackathon.UpdatePosition(position.coords.latitude, position.coords.longitude, velocity, heading);
 }
 
+function getLocations(){
+    navigator.geolocation.getCurrentPosition(function(position){
+              // Get some users
+      GpsGate.Server.Hackathon.GetNearbyLocations().addCallbacks(
+        function(response) {
+          for(var i = 0; i < response.length; i++){
+            var location = response[i];
+            console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, 
+              location.distance));
+          }
+        }, 
+        function(error){}
+      );
+
+
+    });
+
+}
+
+
+
 function ComputeLatLng(vLatitude, vLongitude, vAngle, vDistance) {
+    // Find 
+
+
     var vNewLatLng = [];
     vDistance = vDistance / 6371;
     vAngle = ToRad(vAngle);
