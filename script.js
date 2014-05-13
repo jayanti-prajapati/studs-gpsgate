@@ -14,6 +14,16 @@ function initialize() {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
+function addMarker(lat, lng) {
+  var latlngpos = new google.maps.LatLng(lat, lng);
+  var marker = new google.maps.Marker({
+    position: latlngpos,
+    map: map,
+    title:"Secret location"
+  });
+}
+
+
 
 function updatePosition(callback) {
     navigator.geolocation.getCurrentPosition(callback);
@@ -36,6 +46,9 @@ function getLocations(){
             var location = response[i];
             console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, 
               location.distance));
+            var posarray = ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, 
+              location.distance);
+            //addMarker(posarray[0], posarray[1]);
           }
         }, 
         function(error){}
