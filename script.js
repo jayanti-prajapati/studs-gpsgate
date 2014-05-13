@@ -9,7 +9,7 @@ function initialize() {
         var initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
         map.setCenter(initialLocation);
     });
-    setInterval(updatePosition.bind(null, sendPosition), 3000);
+    setInterval(updatePosition.bind(null, sendPosition), 5000);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
