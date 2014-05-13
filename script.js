@@ -12,7 +12,9 @@ function initialize() {
     setInterval(updatePosition.bind(null, sendPosition), 5000);
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+
+
+var markers = [];
 
 function addMarker(lat, lng) {
   var latlngpos = new google.maps.LatLng(lat, lng);
@@ -21,8 +23,34 @@ function addMarker(lat, lng) {
     map: map,
     title:"Secret location"
   });
+  markers.push(marker)
 }
 
+// Sets the map on all markers in the array.
+function setAllMap(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+  setAllMap(null);
+}
+
+// Shows any markers currently in the array.
+function showMarkers() {
+  setAllMap(map);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+  clearMarkers();
+  markers = [];
+}
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
 
 
 function updatePosition(callback) {
