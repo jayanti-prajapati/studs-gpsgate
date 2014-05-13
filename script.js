@@ -101,7 +101,7 @@ function sendPosition() {
     var velocity = 0;
     var heading = 0;
     console.log('Updating position', position);
-    GpsGate.Server.Hackathon.UpdatePosition(position.coords.latitude, position.coords.longitude, velocity, heading);
+    //GpsGate.Server.Hackathon.UpdatePosition(position.coords.latitude, position.coords.longitude, velocity, heading);
 
 }
 
@@ -110,6 +110,7 @@ function getLocations() {
     GpsGate.Server.Hackathon.GetNearbyLocations().addCallbacks(function(response) {
       deleteMarkers();
       clearDistances();
+
       for(var i = 0; i < response.length; i++) {
         var location = response[i];
         console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, location.distance));
@@ -119,6 +120,8 @@ function getLocations() {
         console.log(location.distance);
         addDistance(location);
       }
+      var width = (jQuery(window).width()/response.length)-45;
+      jQuery(".location").css("width", width);
     });
 }
 

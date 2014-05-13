@@ -1,5 +1,7 @@
  html {
  	height: 100%;
+ 	font-family: 'Arial';
+ 	font-size: 18px;
  }
  
  body {
@@ -21,6 +23,7 @@
  }
 
  .location {
+ 	border-right: 1px solid black;
  	padding: 10px;
  	height: 100%;
  	width: auto;
