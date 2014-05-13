@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hackathon</title>
+	<!-- Include core bootstrap -->
+	<script type="text/javascript" src="http://studs.gpsgate.com/Services/Core.ashx?xss2=true&deps=true"></script>
+	
+	<!-- Google maps API -->
+	<!-- https://developers.google.com/maps/documentation/javascript/tutorial -->
+	<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script> -->
+	
+	<script>
+		// Include session handling (login/logout) + jQuery
+		goog.require('GpsGate.Session');
+
+		// knockout (http://http://knockoutjs.com/)
+		// goog.require('ko');
+	</script>
+
+	<script>
+		// Include hackathon web service
+		GpsGate.require('GpsGate.Server.Hackathon');
+	</script>
+
+	<script>
+
+		function doLogin() {
+			var appId = 5;
+			var username = '';
+			var password = '';
+			
+			return GpsGate.Session.login(username, password, { appId: appId }).addCallbacks(
+					function(result) {
+						console.log('Login OK');
+						setTimeout(mainProgram, 0); // use timeout "trick" to get out of the deferred callback chain scope
+					},
+					function(error) {
+						console.error("that's a bummer!")
+					}
+				);
+		}
+
+		function mainProgram() {
+			// do something
+			console.log('app.main');
+
+			// Get some users
+			GpsGate.Server.Hackathon.GetUpdatedUsers().addCallbacks(
+				function(response) {
+					var ul = jQuery('#users');
+					for (var i = 0; i < response.users.length; i++) {
+						ul.append('<li>' + response.users[i].name + '</li>');
+					}
+				},
+				function(error) { }
+			);
+		}
+
+		jQuery(document).ready(doLogin);
+	</script>
+</head>
+<body>
+	<div>
+		Some UI stuff here...
+		<ul id="users">
+		</ul>
+	</div>
+</body>
+</html>
