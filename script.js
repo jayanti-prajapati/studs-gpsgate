@@ -1,9 +1,10 @@
+var map;
 function initialize() {
     var mapOptions = {
       center: new google.maps.LatLng(-34.397, 150.644),
       zoom: 18
     };
-    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
     updatePosition(function(position) {
         var initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
@@ -76,7 +77,8 @@ function getLocations(){
               location.distance));
             var posarray = ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, 
               location.distance);
-            //addMarker(posarray[0], posarray[1]);
+            deleteMarkers();
+            addMarker(posarray[0], posarray[1]);
           }
         }, 
         function(error){}
