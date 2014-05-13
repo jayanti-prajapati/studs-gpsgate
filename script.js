@@ -71,13 +71,13 @@ function getLocations(){
               // Get some users
       GpsGate.Server.Hackathon.GetNearbyLocations().addCallbacks(
         function(response) {
+          deleteMarkers();
           for(var i = 0; i < response.length; i++){
             var location = response[i];
             console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, 
               location.distance));
             var posarray = ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, 
               location.distance);
-            deleteMarkers();
             addMarker(posarray[0], posarray[1]);
           }
         }, 
