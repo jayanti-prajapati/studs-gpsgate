@@ -74,12 +74,8 @@ function getLocations(){
           deleteMarkers();
           for(var i = 0; i < response.length; i++){
             var location = response[i];
-            console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading,
-              location.distance));
-            var posarray = ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading,
-
-              location.distance/1000);
-
+            console.log('Pos: ' + ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, location.distance));
+            var posarray = ComputeLatLng(position.coords.latitude, position.coords.longitude, location.heading, location.distance/1000);
             addMarker(posarray[0], posarray[1]);
           }
         },
