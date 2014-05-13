@@ -9,6 +9,7 @@ function initialize() {
     updatePosition(function(position) {
         var initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
         map.setCenter(initialLocation);
+        window.currentPosition = position;
     });
     setInterval(updatePosition.bind(null, sendPosition), 5000);
 }
@@ -59,11 +60,32 @@ function updatePosition(callback) {
     getLocations();
 }
 
+function updateUserPosition() {
+    var position = window.currentPosition;
+    var location = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+    if (window.userMarker) {
+        window.userMarker.setMap(null);
+    }
+    window.userMarker = new google.maps.Marker({
+        map:map,
+        draggable: false,
+        clickable: false,
+        position: location,
+        title: 'You are here!',
+        icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 10
+        }
+    });
+}
+
 function sendPosition(position) {
+    updateUserPosition();
     var velocity = 0;
     var heading = 0;
     console.log('Updating position', position);
     GpsGate.Server.Hackathon.UpdatePosition(position.coords.latitude, position.coords.longitude, velocity, heading);
+
 }
 
 function getLocations(){
