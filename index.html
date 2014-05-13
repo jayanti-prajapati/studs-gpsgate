@@ -11,7 +11,7 @@
   
   <!-- Google maps API -->
   <!--https://developers.google.com/maps/documentation/javascript/tutorial -->
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true&key=AIzaSyAfORwBikitB2iR46uR-J-6K2msh15sxCQ"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=true&key=AIzaSyAfORwBikitB2iR46uR-J-6K2msh15sxCQ"></script>
   
   <script>
     // Include session handling (login/logout) + jQuery
@@ -49,6 +49,17 @@
       console.log('app.main');
 
       // Get some users
+      GpsGate.Server.Hackathon.GetNearbyLocations().addCallbacks(
+        function(response) {
+          for(var i = 0; i < response.length; i++){
+            var location = response[i];
+            console.log(location);
+            console.log(ComputeLatLng(0, 0, location.heading, location.distance));
+          }
+        }, 
+        function(error){}
+      );
+
       GpsGate.Server.Hackathon.GetUpdatedUsers().addCallbacks(
         function(response) {
           var ul = jQuery('#users');
