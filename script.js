@@ -1,4 +1,11 @@
 var map;
+
+var geo_options = {
+    enableHighAccuracy: true,
+    maximumAge        : 10000,
+    timeout           : 27000
+};
+
 function initialize() {
     var mapOptions = {
       center: new google.maps.LatLng(-34.397, 150.644),
@@ -15,11 +22,18 @@ function initialize() {
     updateCurrentPosition(function(position) {
         updateUserPosition();
         sendPosition();
-        getLocations();
-        setInterval(updateCurrentPosition, 1000);
-        setInterval(updateUserPosition, 1000);
+        // Delay so we dont get an error
+        setTimeout(getLocations, 1000);
+        //setInterval(updateCurrentPosition, 1000);
+        //setInterval(updateUserPosition, 1000);
         setInterval(sendPosition, 5000);
         setInterval(getLocations, 8000);
+
+        navigator.geolocation.watchPosition(function(position) {
+            console.log("New position:", position);
+            window.currentPosition = position;
+            updateCurrentPosition();
+        }, null, geo_options);
     })
 }
 
@@ -30,7 +44,7 @@ function updateCurrentPosition(callback) {
         if (callback) {
             callback(position);
         }
-    });
+    }, null, geo_options);
 }
 
 var markers = [];
